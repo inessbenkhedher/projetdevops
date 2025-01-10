@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: inessbk/myapp-backend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: JWT_SECRET
+          value: "f371b29fb07b78c99c7df3a5ae5f90b7e8a7dbe48c2c022bfd09e34a367dd3776ae8b082809b224c04398bcb10c63a30e181d1ddbb1ec348affbb8f5a0d79842"
+        - name: DB_HOST
+          value: "mysql-service"
+        - name: DB_USER
+          value: "root"
+        - name: DB_PASS
+          value: ""
+        - name: DB_NAME
+          value: "inter"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000

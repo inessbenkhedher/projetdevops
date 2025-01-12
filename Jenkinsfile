@@ -4,14 +4,21 @@ pipeline {
     environment {
         DOCKER_IMAGE = "inessbk/myapp-backend:latest" // Replace with your Docker image name
         DOCKER_CREDENTIALS_ID = "docker-hub-credentials" // Jenkins credentials ID for Docker Hub
-        
+        GIT_CREDENTIALS_ID = "github-credentials" // Jenkins credentials ID for GitHub
     }
 
     stages {
         stage('Checkout Code') {
             steps {
                 echo "Checking out source code..."
-                git branch: 'main', url: 'https://github.com/inessbenkhedher/devops.git', credentialsId: "${GIT_CREDENTIALS_ID}"
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/inessbenkhedher/projetdevops.git',
+                        credentialsId: "$GIT_CREDENTIALS_ID"
+                    ]]
+                ])
             }
         }
 
@@ -27,7 +34,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 echo "Pushing Docker Image to Docker Hub..."
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: "$DOCKER_CREDENTIALS_ID", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh '''
                     echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
                     docker push $DOCKER_IMAGE

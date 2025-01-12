@@ -1,0 +1,32 @@
+replicaCount: 3
+
+image:
+  repository: inessbk/myapp-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3000 # Port for your backend application
+
+env:
+  DB_HOST: "localhost" # Replace with appropriate value if deployed on a Kubernetes cluster (e.g., 'db' for a database service)
+  DB_USER: "root"
+  DB_PASSWORD: ""
+  DB_PORT: "3306"
+  DB_NAME: "inter"
+  JWT_SECRET: "f371b29fb07b78c99c7df3a5ae5f90b7e8a7dbe48c2c022bfd09e34a367dd3776ae8b082809b224c04398bcb10c63a30e181d1ddbb1ec348affbb8f5a0d79842"
+  PORT: "3000" # Port for backend service to run
+
+ingress:
+  enabled: false
+
+serviceAccount:
+  create: true
+  name: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80

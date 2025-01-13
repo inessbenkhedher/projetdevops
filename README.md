@@ -26,6 +26,7 @@ Ce projet DevOps consiste à conteneuriser, orchestrer et surveiller une applica
 - Pipeline Jenkins pour automatiser les tâches DevOps.
 - Construction, scan de vulnérabilités, et push des images Docker.
 
+- ![Capture d'écran 2025-01-13 220120](https://github.com/user-attachments/assets/43ab252e-976d-4990-bb1d-e28d7ba7efe8)
 - ![Capture d'écran 2025-01-12 004442](https://github.com/user-attachments/assets/ffe5b13a-3f4b-499a-a47e-cf3fef26ddba)
 
 
